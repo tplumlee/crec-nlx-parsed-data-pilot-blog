@@ -1,6 +1,5 @@
 # SETUP --------------------------------------------------------------------------------
 library(tidyverse)
-library(readxl)
 library(plotly)
 library(scales)
 library(htmlwidgets)
@@ -9,7 +8,7 @@ library(glue)
 options(scipen = 999)
 
 # READ DATA ----------------------------------------------------------------------------
-data_1 <- read_xlsx("chart_data.xlsx", sheet = "chart_1") |> 
+data_1 <- read_csv("chart_data.xlsx", sheet = "chart_1") |> 
   mutate(
     req_ed_level = fct_inorder(req_ed_level),
     post_pct = round(postings/sum(postings), 3)*100,
@@ -22,7 +21,7 @@ none_pct <- data_1 |>
   select(post_pct_label) |> 
   deframe()
 
-data_2 <- read_xlsx("chart_data.xlsx", sheet = "chart_2") |> 
+data_2 <- read_csv("chart_data.xlsx", sheet = "chart_2") |> 
   mutate(post_pct = postings/sum(postings), .by = occ_group)
 
 none_ranks <- data_2 |> 
@@ -37,7 +36,7 @@ data_2 <- data_2 |>
     edu_req_label = if_else(edu_req == "None", "No credential required", "Any credential required")
   )
 
-data_3 <- read_xlsx("chart_data.xlsx", sheet = "chart_3") |> 
+data_3 <- read_csv("chart_data.xlsx", sheet = "chart_3") |> 
   mutate(
     req_ed_level_combo = case_when(
       req_ed_level %in% c("Vocational/Technical", "Associate") ~ "Vocational/Technical, Certificate, Associate",
